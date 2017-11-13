@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+</head>
+<body>
+<form action="/users/search" method="post">
+    姓名：<input type="text" name="s_name" value="<%= datas.name %>"><br>
+    <input type="submit" value="查询">
+</form>
+<table>
+    <tr>
+        <th>编号</th>
+        <th>姓名</th>
+        <th>发件人</th>
+        <th>收件人</th>
+        <th>内容</th>
+        <th>标题</th>
+        <th>发送日期</th>
+    </tr>
+    <% for(var i = 0; i < datas.length; i++) {%>
+        <tr>
+            <td><%= datas[i].id %></td>
+            <td><%= datas[i].name %></td>
+            <td><%= datas[i].email_user %></td>
+            <td><%= datas[i].email_touser %></td>
+            <td><%= datas[i].content %></td>
+            <td><%= datas[i].title %></td>
+            <td><%= datas[i].to_date %></td>
+            <td><a href="/users/add">添加用户</a></td>
+            <td><a href="/users/del/<%= datas[i].id %>">删除</a></td>
+            <td><a href="/users/toUpdate/<%= datas[i].id %>">修改</a></td>
+        </tr>
+    <% } %>
+</table>
+</body>
+</html>
