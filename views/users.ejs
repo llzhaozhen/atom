@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%=title%></title>
+  </head>
+  <body>
+  Hello:<%= msg %>!
+  <center>
+    <form action="/login/search" method="post">
+        编号:<input type="text" name="s_id" value="<%= datas.id %>" >
+              <input type="submit" value="查找" > <a href="/login/add">添加用户</a>
+    </form>
+    
+    <table style="width:850px;">
+        <tr>
+          <th>编号</th>
+          <th>姓名</th>
+          <th>发件人</th>
+          <th>收件人</th>
+          <th>内容</th>
+          <th>标题</th>
+          <th>发送日期</th>
+          <th>执行的操作</th>
+        </tr>
+        <% for(var i=0;i < datas.length;i++){ %>
+          <tr>
+            <td><%= datas[i].id %></td>
+            <td><%= datas[i].name %></td>
+            <td><%= datas[i].email_user %></td>
+            <td><%= datas[i].email_touser %></td>
+            <td><%= datas[i].content %></td>
+            <td><%= datas[i].title %></td>
+            <td><%= datas[i].to_date %></td>
+            <td><a href="/login/del/<%= datas[i].id %>">删除</a>
+            <a href="/login/toUpdate/<%= datas[i].id %>">修改</a> </td>
+
+          </tr>
+          <% } %>
+        </table>
+
+    </center>
+
+
+  </body>
+</html>
