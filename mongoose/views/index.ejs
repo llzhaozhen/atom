@@ -1,0 +1,13 @@
+<% include header %>
+    <h3>班级成员信息：</h3>
+    <ul>
+        <% for(var i = 0; i < result.length; i++) { %>
+            <li>姓名：<%= result[i].name %>，学号：<%= result[i].studentId %></li>
+        <% } %>
+    </ul>
+    <h3>操作：</h3>
+    <a href="/create">增加</a>
+    <a href="/del">删除</a>
+    <a href="/update">修改</a>
+    <a href="/reach">查找</a>
+<% include footer %>
