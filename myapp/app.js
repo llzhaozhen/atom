@@ -9,7 +9,7 @@ var index = require('./routes/index');
 var users = require('./routes/user');
 
 var app = express();
-
+app.use("/lib",express.static(path.join(__dirname, 'node_modules')));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

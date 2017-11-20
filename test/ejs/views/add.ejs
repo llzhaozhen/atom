@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
+    <title></title>
+  </head>
+  <body>
+    <div class="jumbotron">
+      <h1>Hello, EmailBox!</h1>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 添加邮件！.....</p>
+
+    </div>
+    <form action="/login/add" method="post" class="form-group">
+      <div class="form-group">
+        <label for="exampleInputEmail1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;编号：</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" name="id" placeholder="请输入您此次的编号.."><br>
+
+        <label for="exampleInputEmail1"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;标题：</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" name="title" placeholder="请输入标题.."><br>
+
+        <label for="exampleInputEmail1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名：</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" name="name" placeholder="请输入您的姓名.."><br>
+
+        <label for="exampleInputEmail1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发件人：</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" name="email_user" placeholder="请输入发件人.."><br>
+
+        <label for="exampleInputEmail1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收件人：</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" name="email_touser" placeholder="请输入收件人.."><br>
+
+        <label for="exampleInputEmail1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;内容：</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" name="content" placeholder="请输入您想发送的内容.."><br>
+
+        <input type="hidden" class="form-control" id="exampleInputEmail1" name="to_date" value="now"><br>
+      </div>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="提交" class="btn btn-success">
+    </form>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+  </body>
+</html>
