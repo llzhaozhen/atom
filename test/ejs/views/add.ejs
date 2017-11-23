@@ -5,13 +5,13 @@
     <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
     <title></title>
   </head>
-  <body>
+  <body style="width:1340px;margin-left:10px;"  onload="load()">
     <div class="jumbotron">
       <h1>Hello, EmailBox!</h1>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 添加邮件！.....</p>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 发送邮件！.....</p>
 
     </div>
-    <form action="/login/add" method="post" class="form-group">
+    <form action="/login/addEmail" method="post" class="form-group">
       <div class="form-group">
         <label for="exampleInputEmail1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;编号：</label>
         <input type="text" class="form-control" id="exampleInputEmail1" name="id" placeholder="请输入您此次的编号.."><br>

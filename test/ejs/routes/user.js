@@ -1,57 +1,28 @@
 var express=require('express');
 var router=express.Router();
-
+var multer  = require('multer')
+var upload = multer({ dest: 'upload/' });
+var fs=require('fs');
 var db=require("../db/Sql");
+
+//引入发送邮件的模块
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+  service: 'qq',
+  auth: {
+    user: '1403293285@qq.com',
+    pass: 'glkxuoyjicqsifbj' //授权码,通过QQ获取
+
+  }
+  });
+
 /*
  *查询列表页
  */
 
-
  router.get("/",function(req,res,next){
    res.render("login");
  });
-
-
-/**
-  *添加用户
-  */
-router.get("/add",function(req,res,next){
-  res.render("add");
-});
-
-
-router.post("/add",function(req,res,next){
-  var id=req.body.id;
-  var name=req.body.name;
-  var email_user=req.body.email_user;
-  var email_touser=req.body.email_touser;
-  var content=req.body.content;
-  var title=req.body.title;
-  var to_date=req.body.to_date;
-
-  if(id==null){
-    res.send("新增失败"+err);
-  }
-
-  db.query("insert into email(id,name,email_user,email_touser,content,title,to_date) values('"+id+
-  "','"+name+"','"+email_user+"','"+email_touser+"','"+content+"','"+title+"','"+to_date+
-  "')",function(err,rows){
-    if(err){
-      res.send("新增失败"+err);
-    }else{
-
-      db.query("select * from email",function(err,rows){
-        if(err){
-          res.render("users",{title:"用户列表",datas:[]});
-
-        }else{
-          var name='添加成功！'
-          res.render("users",{title:"用户列表",datas:rows,msg:name})
-        }
-      })
-    }
-  });
-});
 
 /**
 *删除用户
@@ -130,16 +101,14 @@ router.post("/update",function(req,res,next){
 **/
 
 
-router.post("/search",function(req,res,next){
+router.post("/search",upload.single('other'),function(req,res,next){
   var id= req.body.s_id;
+  var other=req.body.other;
+  console.log(other);
+  fs.renameSync('F:/ssa/'+other,'F:/GitHub/Atom/test/ejs/upload/'+other);
+
   var sql="select * from email where id='"+id +"'";
-  // var sql="select * from email";
-  //
-  // if(id){
-  //   sql += " where id='"+id+"'";
-  // }
-  //
-  // sql.replace("and","where");
+
   db.query(sql,function(err,rows){
     if(rows==0){
       var name='没有这个用户的信息';
@@ -163,15 +132,10 @@ router.post("/login",function(req,res,next){
 
   var sql="select * from email where id='"+id +"'and name='"+name+"'";
 
-  // if(id){
-  //   sql += " where id='"+id+"'";
-  // }
-
-  // sql.replace("and","where");
   db.query(sql,function(err,rows){
     if(rows==0){
       res.send("没有您的信息！");
-    }else(
+    }else{
       db.query("select * from email",function(err,rows){
         if(err){
           res.render("users",{title:"用户列表",datas:[]});
@@ -179,7 +143,64 @@ router.post("/login",function(req,res,next){
           res.render("users",{title:"用户列表",datas:rows,msg:name})
         }
       })
-    )
+    }
+  });
+});
+
+
+
+// 发送邮件
+router.get("/addEmail",function(req,res,next){
+  res.render("add");
+});
+
+router.post("/addEmail",function(req,res,next){
+  var id=req.body.id;
+  var name=req.body.name;
+  var email_user=req.body.email_user;
+  var email_touser=req.body.email_touser;
+  var content=req.body.content;
+  var title=req.body.title;
+  var to_date=req.body.to_date;
+
+  var mailOptions = {
+    from: '1403293285@qq.com', // 发送者
+    to: email_touser, // 接受者,可以同时发送多个,以逗号隔开
+    subject: title, // 标题
+    text: 'Hello world', // 文本
+    html: content
+
+  };
+
+  transporter.sendMail(mailOptions, function (err, info) {
+    if (err) {
+      console.log(err);
+      return;
+    }else{
+      if(id==null){
+        res.send("新增失败"+err);
+      }
+
+      db.query("insert into email(id,name,email_user,email_touser,content,title,to_date) values('"+id+
+      "','"+name+"','"+email_user+"','"+email_touser+"','"+content+"','"+title+"','"+to_date+
+      "')",function(err,rows){
+        if(err){
+          res.send("新增失败"+err);
+        }else{
+
+          db.query("select * from email",function(err,rows){
+            if(err){
+              res.render("users",{title:"用户列表",datas:[]});
+
+            }else{
+              var name='发送成功';
+              res.render("users",{title:"用户列表",datas:rows,msg:name});
+
+            }
+          })
+        }
+      });
+    }
   });
 });
 

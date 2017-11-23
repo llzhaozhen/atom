@@ -1,0 +1,647 @@
+﻿标量$开始，如$a $b是两个标量
+数组@开始，@a @b 是两个数组
+哈希 %开始， %a %b是两个哈希
+
+perl为每个变量类型设置了独立的命令空间，所以不同类型的变量可以使用相同的名称，不用
+担心发生冲突，例如%foo 和 @foo是两个不同的变量
+
+创建变量
+
+变量不需要显式声明类型，在变量赋值后，解释器会自动分配匹配类型的空间
+变量使用等号来赋值  我们在程序中使用 use strict 语句让所有变量需要强制声明类型
+
+
+等号左边为变量 右边为值
+
+
+#!/usr/bin/perl
+ 
+$age = 25;             # 整型
+$name = "runoob";      # 字符串
+$salary = 1445.50;     # 浮点数
+ 
+print "Age = $age\n";
+print "Name = $name\n";
+print "Salary = $salary\n";
+
+以上程序执行输出结果为：
+
+Age = 25
+Name = runoob
+Salary = 1445.5
+
+数组变量
+
+数组适用于存储一个有序的标量值的变量
+数组@开始
+ 要访问数组的变量，可以使用美元符号($)+变量名，并指定下标来访问
+
+
+#!/usr/bin/perl
+ 
+@ages = (25, 30, 40);             
+@names = ("google", "runoob", "taobao");
+ 
+print "\$ages[0] = $ages[0]\n";
+print "\$ages[1] = $ages[1]\n";
+print "\$ages[2] = $ages[2]\n";
+print "\$names[0] = $names[0]\n";
+print "\$names[1] = $names[1]\n";
+print "\$names[2] = $names[2]\n";
+
+以上程序执行输出结果为：
+
+$ages[0] = 25
+$ages[1] = 30
+$ages[2] = 40
+$names[0] = google
+$names[1] = runoob
+$names[2] = taobao
+
+程序中我们在 $ 标记前使用了转义字符 (\) ，这样才能输出字符 $。
+
+
+
+哈希变量
+
+哈希是一个 key/value 对的集合。
+
+哈希 % 开始。
+
+如果要访问哈希值，可以使用 $ + {key} 格式来访问：
+实例
+#!/usr/bin/perl
+ 
+%data = ('google', 45, 'runoob', 30, 'taobao', 40);
+ 
+print "\$data{'google'} = $data{'google'}\n";
+print "\$data{'runoob'} = $data{'runoob'}\n";
+print "\$data{'taobao'} = $data{'taobao'}\n";
+
+以上程序执行输出结果为：
+
+$data{'google'} = 45
+$data{'runoob'} = 30
+$data{'taobao'} = 40
+
+
+变量上下文
+
+所谓上下文：指的是表达式所在的位置，
+上下文是由等号左边的变量类型决定的，等号左边是标量，则是标量上下文，等号左边是列表，则是列表上下文
+Perl 解释器会根据上下文来决定变量的类型，实例
+
+
+
+#!/usr/bin/perl
+ 
+@names = ('google', 'runoob', 'taobao');
+ 
+@copy = @names;   # 复制数组
+$size = @names;   # 数组赋值给标量，返回数组元素个数
+ 
+print "名字为 : @copy\n";
+print "名字数为 : $size\n";
+
+以上程序执行输出结果为：
+
+名字为 : google runoob taobao
+名字数为 : 3
+
+代码中@names是一个数组，他应用在了两个不同的上下文中，第一个将其复制给另外一个数组，所以
+它输出了数组的所有元素，第二个我们将数组赋值给一个标量，他返回元素的个数
+
+
+
+perl标量
+标量是一个简单的数据单元
+标量可以是一个整数，浮点数，字符，字符串，段落或者是一个完整的网页
+
+
+标量运算
+
+以下实例演示了标量的简单运算：
+实例
+#!/usr/bin/perl
+ 
+$str = "hello" . "world";       # 字符串连接
+$num = 5 + 10;                  # 两数相加
+$mul = 4 * 5;                   # 两数相乘
+$mix = $str . $num;             # 连接字符串和数字
+ 
+print "str = $str\n";
+print "num = $num\n";
+print "mix = $mix\n";
+
+执行以上程序，输出结果为：
+
+str = helloworld
+num = 15
+mix = helloworld15
+
+
+
+多行字符串
+
+我们可以使用单引号来输出多行字符串，、
+
+
+#!/usr/bin/perl
+ 
+$string = '
+菜鸟教程
+    —— 学的不仅是技术，更是梦想！
+';
+ 
+print "$string\n";
+
+
+
+特殊字符
+
+Perl中特殊字符的应用如 __FILE__, __LINE__, 和 __PACKAGE__ 分别表示当前执行脚本的文件名，行号，包名。
+
+这些特殊字符是单独的标记，不能写在字符串中，例如：
+
+
+
+#!/usr/bin/perl
+ 
+print "文件名 ". __FILE__ . "\n";
+print "行号 " . __LINE__ ."\n";
+print "包名 " . __PACKAGE__ ."\n";
+ 
+# 无法解析
+print "__FILE__ __LINE__ __PACKAGE__\n";
+
+执行以上程序，输出结果为：
+
+文件名 test.pl
+行号 4
+包名 main
+__FILE__ __LINE__ __PACKAGE__
+
+
+V字符串，
+一个以v开头，后面跟着一个或者多个用句点分隔的整数，会被仿作一个字符串文本
+当你想为每个字符直接声明其数字值时，v字符串提供了一种更清晰的构造这类字符串的方法
+
+
+#!/usr/bin/perl
+ 
+$smile  = v9786;
+$foo    = v102.111.111;
+$martin = v77.97.114.116.105.110; 
+ 
+print "smile = $smile\n";
+print "foo = $foo\n";
+print "martin = $martin\n";
+
+执行以上程序，输出结果为：
+
+Wide character in print at test.pl line 7.
+smile = ☺
+foo = foo
+martin = Martin
+
+
+Perl数组
+
+Perl数组一个是存储标量值的列表变量，变量可以是不同类型
+数组变量以@开头，访问数组元素使用$+变量名称+[索引值]格式来读取
+
+
+创建数组
+
+数组变量以@符号开始，元素放在括号内，也可以以qw开始定义一个数组
+@array=（1,2，‘hello’）；
+@array=qw/这是一个数组/；
+
+第二个数组使用qw//运算符，它返回字符串列表，数组元素以空格分隔，当然也可以使用多行定义数组
+
+@days=qw/goole
+taobao
+....
+runoob/；
+
+也可以按索引来个数组赋值
+
+$array[0] = 'Monday';
+...
+$array[6] = 'Sunday';
+
+
+访问数组元素
+
+访问数组元素使用 $ + 变量名称 + [索引值] 格式来读取，
+
+
+@sites = qw/google taobao runoob/;
+ 
+print "$sites[0]\n";
+print "$sites[1]\n";
+print "$sites[2]\n";
+print "$sites[-1]\n";    # 负数，反向读取
+
+执行以上程序，输出结果为：
+
+google
+taobao
+runoob
+runoob
+
+
+数组索引值从0开始，即0为第一个元素，1为第二个元素，以此类推
+
+负数从反向开始读取，-1位第一个元素，-2位第二个元素
+
+数组序列号
+
+Perl 提供了可以按序列输出的数组形式，格式为 起始值 + .. + 结束值，实例如下：
+实例
+#!/usr/bin/perl
+ 
+@var_10 = (1..10);
+@var_20 = (10..20);
+@var_abc = (a..z);
+ 
+print "@var_10\n";   # 输出 1 到 10
+print "@var_20\n";   # 输出 10 到 20
+print "@var_abc\n";  # 输出 a 到 z
+
+执行以上程序，输出结果为：
+
+1 2 3 4 5 6 7 8 9 10
+10 11 12 13 14 15 16 17 18 19 20
+a b c d e f g h i j k l m n o p q r s t u v w x y z
+
+
+
+
+
+#!/uer/bin/perl
+ 
+@array = (1,2,3);
+$array[50] = 4;
+ 
+$size = @array;
+$max_index = $#array;
+ 
+print "数组大小:  $size\n";
+print "最大索引: $max_index\n";
+
+执行以上程序，输出结果为：
+
+数组大小:  51
+最大索引: 50
+
+从输出的结果可以看出，数组元素只有四个，但是数组大小为 51。
+
+
+添加和删除数组元素
+
+Perl提供了一些有用的函数来添加和删除数组元素
+
+push @ARRAY, LIST
+
+将列表的值放到数组的末尾
+2 	pop @ARRAY
+
+弹出数组最后一个值，并返回它
+3 	shift @ARRAY
+
+弹出数组第一个值，并返回它。数组的索引值也依次减一。
+4 	unshift @ARRAY, LIST
+
+将列表放在数组前面，并返回新数组的元素个数
+
+
+
+#!/usr/bin/perl
+ 
+# 创建一个简单是数组
+
+@sites = ("google","runoob","taobao");
+print "1. \@sites  = @sites\n";
+ 
+# 在数组结尾添加一个元素
+  push(@sites, "baidu");
+print "2. \@sites  = @sites\n";
+ 
+# 在数组开头添加一个元素
+  unshift(@sites, "weibo");
+print "3. \@sites  = @sites\n";
+ 
+# 删除数组末尾的元素
+  pop(@sites);
+print "4. \@sites  = @sites\n";
+ 
+# 移除数组开头的元素
+  shift(@sites);
+print "5. \@sites  = @sites\n";
+
+
+切割数组
+
+
+#!/usr/bin/perl
+ 
+@sites = qw/google taobao runoob weibo qq facebook 网易/;
+ 
+@sites2 = @sites[3,4,5];
+ 
+print "@sites2\n";
+
+执行以上程序，输出结果为：
+
+weibo qq facebook
+
+
+数组的索引需要指定有效的索引值，可以是正数或 负数，每个索引值使用逗号隔开
+
+如果是连续索引，可以使用..来表示指定范围
+
+
+#!/usr/bin/perl
+ 
+@sites = qw/google taobao runoob weibo qq facebook 网易/;
+ 
+@sites2 = @sites[3..5];
+ 
+print "@sites2\n";
+
+执行以上程序，输出结果为：
+
+weibo qq facebook
+
+
+替换数组元素
+
+Perl中数组元素替换使用splice（）函数，
+
+splice @array，OFFSET[,LENGTH[,LIST]]
+
+参数说明
+	@arrray：要替换的数组
+	offset：起始位置
+	length：替换的元素个数
+	list：替换元素列表
+
+
+
+#!/usr/bin/perl
+ 
+@nums = (1..20);
+print "替换前 - @nums\n";
+ 
+splice(@nums, 5, 5, 21..25); 
+print "替换后 - @nums\n";
+
+替换前 - 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+替换后 - 1 2 3 4 5 21 22 23 24 25 11 12 13 14 15 16 17 18 19 20
+
+//sqlice表示替换从第五个元素开始（索引为5）替换5个元素，用21--25的数字替换
+
+
+将字符串转换为数组
+
+Perl中将字符串转换为数组使用split（）函数，
+
+split[PATTERN[,EXPR[,LIMIT]]]
+
+参数说明
+	pattern：分隔符默认为空格
+	expr：指定字符串数
+	limit：如果指定该参数，则返回该数组的元素个数
+
+#!/usr/bin/perl
+ 
+# 定义字符串
+$var_test = "runoob";
+$var_string = "www-runoob-com";
+$var_names = "google,taobao,runoob,weibo";
+ 
+# 字符串转为数组
+@test = split('', $var_test);
+@string = split('-', $var_string);
+@names  = split(',', $var_names);
+ 
+print "$test[3]\n";  # 输出 o
+print "$string[2]\n";  # 输出 com
+print "$names[3]\n";   # 输出 weibo
+
+执行以上程序，输出结果为：
+
+o
+com
+weibo
+
+将数组转换为字符串
+Perl中将数组转换为字符串使用jion（）函数
+
+join EXPR,LIST
+
+参数说明 
+	expr：连接符
+	list：列表或数组
+
+
+
+#!/usr/bin/perl
+ 
+# 定义字符串
+$var_string = "www-runoob-com";
+$var_names = "google,taobao,runoob,weibo";
+ 
+# 字符串转为数组
+@string = split('-', $var_string);
+@names  = split(',', $var_names);
+ 
+ 
+# 数组转为字符串
+$string1 = join( '-', @string );
+$string2 = join( ',', @names );
+ 
+print "$string1\n";
+print "$string2\n";
+
+执行以上程序，输出结果为：
+
+www-runoob-com
+google,taobao,runoob,weibo
+
+
+
+
+数组排序
+Perl中数组排序使用sort（）函数
+
+sort [SUBROUTINE] LIST
+
+参数说明
+	subroutine：指定规则
+	list：列表或数组
+
+
+
+#!/usr/bin/perl
+ 
+# 定义数组
+@sites = qw(google taobao runoob facebook);
+print "排序前: @sites\n";
+ 
+# 对数组进行排序
+@sites = sort(@sites);
+print "排序前: @sites\n";
+
+执行以上程序，输出结果为：
+
+排序前: google taobao runoob facebook
+排序前: facebook google runoob taobao
+
+    注意：数组排序是根据 ASCII 数字值来排序。
+          所以我们在对数组进行排序时最好先将每个元素转换为小写后再排序。
+
+
+
+合并数组
+
+数组的元素是以逗号来分割，我们也可以使用逗号来合并数组，如下所示：
+实例
+#!/usr/bin/perl
+ 
+@numbers = (1,3,(4,5,6));
+ 
+print "numbers = @numbers\n";
+
+执行以上程序，输出结果为：
+
+numbers = 1 3 4 5 6
+
+
+也可以在数组中嵌入多个数组，并合并到主数组中：
+实例
+#!/usr/bin/perl
+ 
+@odd = (1,3,5);
+@even = (2, 4, 6);
+ 
+@numbers = (@odd, @even);
+ 
+print "numbers = @numbers\n";
+
+执行以上程序，输出结果为：
+
+numbers = 1 3 5 2 4 6
+
+
+
+从列表中选择元素
+
+一个列表可以当做一个数组使用，在列表后指定索引值可以读取指定的元素，
+
+$var=（5,4,3,2,1,）[4];
+
+print"var 的值为=$var\n"
+
+
+执行以上输出
+
+var的值为=1
+
+
+同样我们可以在数组中使用 .. 来读取指定范围的元素：
+实例
+#!/usr/bin/perl
+ 
+@list = (5,4,3,2,1)[1..3];
+ 
+print "list 的值 = @list\n";
+
+执行以上程序，输出结果为：
+
+list 的值 = 4 3 2
+
+
+小结：
+	splice()函数小结
+
+1. 替换数组元素。
+
+splice(@ARRAY,OFFSET,LENGTH,LIST)
+
+    @ARRAY：要替换的数组。
+    OFFSET：起始位置。
+    LENGTH：替换的元素个数。
+    LIST：替换元素列表。
+
+示例：
+
+@a = (1..5);
+@b = (a..h);
+print "原始  @a\n";
+splice(@a , 2 , 2 , @b);
+print "插入  @a\n";
+
+结果：
+
+原始  1 2 3 4 5
+插入  1 2 a b c d e f g h 5
+
+2. 删除。
+
+splice(@ARRAY,OFFSET,LENGTH)
+
+    @ARRAY：要删除的数组。
+    OFFSET：起始位置。
+    LENGTH：删除的元素个数。
+
+示例：
+
+@a = (1..20);
+print "原始  @a\n";
+splice(@a , 2 , 6);
+print "删除  @a\n";
+
+结果：
+
+原始  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+删除  1 2 9 10 11 12 13 14 15 16 17 18 19 20
+
+3. 删除到末尾。
+
+splice(@ARRAY,OFFSET)
+
+    @ARRAY：要删除到结尾的数组。
+    OFFSET：起始位置。
+
+示例：
+
+@a = (1..20);
+print "原始  @a\n";
+splice(@a , 2);
+print "删除  @a\n";
+
+结果：
+
+原始  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+删除  1 2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
