@@ -113,7 +113,6 @@ router.post("/search",upload.single('other'),function(req,res,next){
     if(rows==0){
       var name='没有这个用户的信息';
       db.query("select * from email",function(err,rows){
-
           res.render("users",{title:"用户列表",datas:rows,msg:name})
         })
     }else{
@@ -147,8 +146,6 @@ router.post("/login",function(req,res,next){
   });
 });
 
-
-
 // 发送邮件
 router.get("/addEmail",function(req,res,next){
   res.render("add");
@@ -163,45 +160,42 @@ router.post("/addEmail",function(req,res,next){
   var title=req.body.title;
   var to_date=req.body.to_date;
 
-  var mailOptions = {
-    from: '1403293285@qq.com', // 发送者
-    to: email_touser, // 接受者,可以同时发送多个,以逗号隔开
-    subject: title, // 标题
-    text: 'Hello world', // 文本
-    html: content
-
-  };
-
-  transporter.sendMail(mailOptions, function (err, info) {
-    if (err) {
-      console.log(err);
-      return;
-    }else{
-      if(id==null){
-        res.send("新增失败"+err);
-      }
-
-      db.query("insert into email(id,name,email_user,email_touser,content,title,to_date) values('"+id+
-      "','"+name+"','"+email_user+"','"+email_touser+"','"+content+"','"+title+"','"+to_date+
-      "')",function(err,rows){
+  if(id==""){
+    res.send("新增失败");
+  }else{
+    db.query("insert into email(id,name,email_user,email_touser,content,title,to_date) values('"+id+
+    "','"+name+"','"+email_user+"','"+email_touser+"','"+content+"','"+title+"','"+to_date+
+    "')",function(err,rows){
         if(err){
-          res.send("新增失败"+err);
-        }else{
-
-          db.query("select * from email",function(err,rows){
-            if(err){
-              res.render("users",{title:"用户列表",datas:[]});
-
-            }else{
+            db.query("select * from email",function(err,rows){
               var name='发送成功';
               res.render("users",{title:"用户列表",datas:rows,msg:name});
-
+            })
+          }else{
+              db.query("select * from email",function(err,rows){
+                  if(err){
+                    res.render("users",{title:"用户列表",datas:[]});
+                  }else{
+                    var mailOptions = {
+                      from: '1403293285@qq.com', // 发送者
+                      to: email_touser, // 接受者,可以同时发送多个,以逗号隔开
+                      subject: title, // 标题
+                      text: 'Hello world', // 文本
+                      html: content
+                    };
+                    transporter.sendMail(mailOptions, function (err, info) {
+                      if (err) {
+                        console.log(err);
+                        return;
+                      }
+                    });
+                      var name='发送成功';
+                      res.render("users",{title:"用户列表",datas:rows,msg:name});
+                    }
+                  })
+                }
+              });
             }
-          })
-        }
-      });
-    }
-  });
-});
+          });
 
 module.exports = router;
