@@ -8,7 +8,7 @@ const routes = (app) => {
             if(err) return console.log(err)
             response.render('index', { result })
         })
-    })
+    })sss
     // 增加学生信息
     app.get('/create', (req, res, next) => {
         res.render('create', {})
